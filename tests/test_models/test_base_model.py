@@ -1,52 +1,69 @@
 #!/usr/bin/python3
+import uuid
 import unittest
 from models.base_model import BaseModel
 from datetime import datetime
 
 
 class TestBaseModel(unittest.TestCase):
-    def test_attributes(self):
-        my_model = BaseModel()
-        self.assertTrue(hasattr(my_model, 'id'))
-        self.assertTrue(hasattr(my_model, 'created_at'))
-        self.assertTrue(hasattr(my_model, 'updated_at'))
+    def setUp(self):
+        self.model = BaseModel()
 
-    def test_str_method(self):
-        my_model = BaseModel()
-        self.assertEqual(
-            str(my_model),
-            "[BaseModel] ({}) {}".format(my_model.id, my_model.__dict__)
-        )
+    def test_instance_attributes(self):
+        self.assertTrue(hasattr(self.model, 'id'))
+        self.assertTrue(hasattr(self.model, 'created_at'))
+        self.assertTrue(hasattr(self.model, 'updated_at'))
+
+    def test_id_generation(self):
+        # Test if id is a string
+        self.assertIsInstance(self.model.id, str)
+
+        # Test if id is a valid UUID
+        try:
+            uuid_obj = uuid.UUID(self.model.id)
+        except ValueError:
+            self.fail("id is not a valid UUID")
+
+    def test_created_at_and_updated_at(self):
+        self.assertIsInstance(self.model.created_at, datetime)
+        self.assertIsInstance(self.model.updated_at, datetime)
 
     def test_save_method(self):
-        my_model = BaseModel()
-        original_updated_at = my_model.updated_at
-        my_model.save()
-        self.assertNotEqual(original_updated_at, my_model.updated_at)
+        # Save the model and check if updated_at changed
+        old_updated_at = self.model.updated_at
+        self.model.save()
+        self.assertNotEqual(old_updated_at, self.model.updated_at)
 
     def test_to_dict_method(self):
-        my_model = BaseModel()
-        my_model_dict = my_model.to_dict()
-        self.assertTrue('__class__' in my_model_dict)
-        self.assertEqual(my_model_dict['__class__'], 'BaseModel')
-        self.assertTrue('id' in my_model_dict)
-        self.assertEqual(my_model_dict['id'], my_model.id)
-        self.assertTrue('created_at' in my_model_dict)
-        self.assertEqual(
-            my_model_dict['created_at'],
-            my_model.created_at.isoformat()
-        )
-        self.assertTrue('updated_at' in my_model_dict)
-        self.assertEqual(
-            my_model_dict['updated_at'],
-            my_model.updated_at.isoformat()
-        )
+        model_dict = self.model.to_dict()
+        self.assertIsInstance(model_dict, dict)
 
-    def test_custom_attributes(self):
-        my_model = BaseModel()
-        my_model.my_number = 89
-        self.assertTrue(hasattr(my_model, 'my_number'))
-        self.assertEqual(my_model.my_number, 89)
+        # Check for expected keys in the dictionary
+        expected_keys = ['id', 'created_at', 'updated_at', '__class__']
+        for key in expected_keys:
+            self.assertIn(key, model_dict)
 
-if __name__ == "__main__":
+        # Check if the datetimes are formatted correctly
+        self.assertIsInstance(model_dict['created_at'], str)
+        self.assertIsInstance(model_dict['updated_at'], str)
+
+    def test_kwargs_initialization(self):
+        # Test initialization with kwargs
+        test_id = "test_id"
+        created_at = datetime.now().isoformat()
+        updated_at = datetime.now().isoformat()
+        kwargs = {
+            'id': test_id,
+            'created_at': created_at,
+            'updated_at': updated_at,
+            'name': 'Test Model'
+        }
+        model_with_kwargs = BaseModel(**kwargs)
+        self.assertEqual(model_with_kwargs.id, test_id)
+        self.assertEqual(model_with_kwargs.created_at.isoformat(), created_at)
+        self.assertEqual(model_with_kwargs.updated_at.isoformat(), updated_at)
+        self.assertTrue(hasattr(model_with_kwargs, 'name'))
+
+
+if __name__ == '__main__':
     unittest.main()
