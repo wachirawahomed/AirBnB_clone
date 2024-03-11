@@ -6,6 +6,7 @@ from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 import os
 
+
 class TestFileStorage(unittest.TestCase):
     """Test cases for FileStorage class"""
 
@@ -26,7 +27,8 @@ class TestFileStorage(unittest.TestCase):
     def test_new(self):
         """Test new method of FileStorage"""
         self.storage.new(self.base_model)
-        key = "{}.{}".format(self.base_model.__class__.__name__, self.base_model.id)
+        key = "{}.{}".format(self.base_model.__class__.__name__,
+                             self.base_model.id)
         self.assertIn(key, self.storage.all())
 
     def test_save(self):
@@ -43,8 +45,10 @@ class TestFileStorage(unittest.TestCase):
         self.storage.new(self.base_model)
         self.storage.save()
         self.storage.reload()
-        key = "{}.{}".format(self.base_model.__class__.__name__, self.base_model.id)
+        key = "{}.{}".format(self.base_model.__class__.__name__,
+                             self.base_model.id)
         self.assertIn(key, self.storage.all())
+
 
 if __name__ == '__main__':
     unittest.main()

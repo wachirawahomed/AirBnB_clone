@@ -3,8 +3,12 @@
 
 import json
 
+
 class FileStorage:
-    """Serializes instances to JSON file and deserializes JSON file to instances"""
+    """
+    Serializes instances to JSON file
+    and deserializes JSON file to instances
+    """
 
     __file_path = "file.json"
     __objects = {}
@@ -31,7 +35,8 @@ class FileStorage:
                 obj_dict = json.load(f)
                 for key, value in obj_dict.items():
                     cls_name, obj_id = key.split('.')
-                    module = __import__('models.' + cls_name, fromlist=[cls_name])
+                    module = __import__('models.' + cls_name,
+                                        fromlist=[cls_name])
                     cls = getattr(module, cls_name)
                     self.__objects[key] = cls(**value)
         except FileNotFoundError:
