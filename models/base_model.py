@@ -42,8 +42,11 @@ class BaseModel:
 
     def to_dict(self):
         """Return dictionary representation of the BaseModel instance"""
-        obj_dict = self.__dict__.copy()
-        obj_dict['__class__'] = self.__class__.__name__
-        obj_dict['created_at'] = self.created_at.isoformat()
-        obj_dict['updated_at'] = self.updated_at.isoformat()
-        return obj_dict
+        obj_dict = {}
+        for key, value in self.__dict__.items():
+            if key == 'created_at' or key == 'updated_at':
+                obj_dict[key] = value.isoformat()
+            else:
+                obj_dict[key] = value
+                obj_dict['__class__'] = self.__class__.__name__
+                return obj_dict
