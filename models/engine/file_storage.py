@@ -2,6 +2,7 @@
 """Module for FileStorage class"""
 
 import json
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -29,7 +30,9 @@ class FileStorage:
             json.dump(obj_dict, f)
 
     def reload(self):
-        """Deserializes the JSON file to __objects"""
+        """
+        Deserializes the JSON file to __objects
+        """
         try:
             with open(self.__file_path, 'r') as f:
                 obj_dict = json.load(f)
@@ -38,6 +41,8 @@ class FileStorage:
                     module = __import__('models.' + cls_name,
                                         fromlist=[cls_name])
                     cls = getattr(module, cls_name)
+                    from models.base_model import BaseModel
+                    cls = BaseModel
                     self.__objects[key] = cls(**value)
         except FileNotFoundError:
             pass

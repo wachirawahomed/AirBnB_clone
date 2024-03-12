@@ -48,5 +48,5 @@ class BaseModel:
                 obj_dict[key] = value.isoformat()
             else:
                 obj_dict[key] = value
-                obj_dict['__class__'] = self.__class__.__name__
-                return obj_dict
+        obj_dict['__class__'] = self.__class__.__name__
+        return obj_dict
