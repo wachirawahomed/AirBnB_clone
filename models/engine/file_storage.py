@@ -2,7 +2,6 @@
 """Module for FileStorage class"""
 
 import json
-from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -38,11 +37,6 @@ class FileStorage:
                 obj_dict = json.load(file)
                 for key, value in obj_dict.items():
                     cls_name, obj_id = key.split('.')
-                    """
-                    module = __import__('models.' + cls_name,
-                                        fromlist=[cls_name])
-                    cls = getattr(module, cls_name)
-                    """
                     from models.base_model import BaseModel
                     cls = BaseModel
                     self.__objects[key] = cls(**value)
