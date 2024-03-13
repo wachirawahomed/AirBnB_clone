@@ -6,6 +6,7 @@ This module contains the entry point of the command interpreter.
 import cmd
 from models import storage
 from models.base_model import BaseModel
+from models.user import User
 import shlex
 import json
 import sys
@@ -18,7 +19,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """
-        Creates a new instance of BaseModel, saves it (to the JSON file) and prints the id.
+        Creates a new instance of BaseModel, saves it (to the JSON file)
+        and prints the id.
         Usage: create <class name>
         """
         if not arg:
@@ -33,7 +35,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """
-        Prints the string representation of an instance based on the class name and id.
+        Prints the string representation of an instance based
+        on the class name and id.
         Usage: show <class name> <id>
         """
         args = arg.split()
@@ -58,7 +61,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, arg):
         """
-        Deletes an instance based on the class name and id (save the change into the JSON file).
+        Deletes an instance based on the class name and id
+        (save the change into the JSON file).
         Usage: destroy <class name> <id>
         """
         args = arg.split()
@@ -84,7 +88,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         """
-        Prints all string representation of all instances based or not on the class name.
+        Prints all string representation of all instances based
+        or not on the class name.
         Usage: all [<class name>]
         """
         args = arg.split()
@@ -100,7 +105,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, arg):
         """
-        Updates an instance based on the class name and id by adding or updating attribute.
+        Updates an instance based on the class name and id
+        by adding or updating attribute.
         Usage: update <class name> <id> <attribute name> "<attribute value>"
         """
         args = shlex.split(arg)
