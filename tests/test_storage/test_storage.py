@@ -4,6 +4,7 @@
 import unittest
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
+from models.user import User
 import os
 
 
@@ -14,6 +15,7 @@ class TestFileStorage(unittest.TestCase):
         """Set up test environment"""
         self.storage = FileStorage()
         self.base_model = BaseModel()
+        self.user = User(email="test@example.com", password="password")
 
     def tearDown(self):
         """Tear down test environment"""
@@ -34,11 +36,14 @@ class TestFileStorage(unittest.TestCase):
     def test_save(self):
         """Test save method of FileStorage"""
         self.storage.new(self.base_model)
+        self.storage.new(self.user)
         self.storage.save()
         with open(FileStorage._FileStorage__file_path, 'r') as f:
             data = f.read()
             self.assertIn(self.base_model.__class__.__name__, data)
             self.assertIn(self.base_model.id, data)
+            self.assertIn(self.user.__class__.__name__, data)
+            self.assertIn(self.user.id, data)
 
     def test_reload(self):
         """Test reload method of FileStorage"""

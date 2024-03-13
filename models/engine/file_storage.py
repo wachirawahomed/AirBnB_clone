@@ -2,6 +2,7 @@
 """Module for FileStorage class"""
 
 import json
+import uuid
 from models.base_model import BaseModel
 from models.user import User
 
@@ -21,8 +22,13 @@ class FileStorage:
 
     def new(self, obj):
         """Sets in __objects the obj with key <obj class name>.id"""
-        key = "{}.{}".format(obj.__class__.__name__, obj.id)
-        self.__objects[key] = obj
+        if hasattr(obj, 'id'):
+            key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            self.__objects[key] = obj
+        else:
+            obj.id = str(uuid.uuid4())
+            key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            self.__objects[key] = obj
 
     def save(self):
         """Serializes __objects to JSON file"""
@@ -46,3 +52,8 @@ class FileStorage:
                     self.__objects[key] = cls(**value)
         except FileNotFoundError:
             pass
+
+    def find_by_id(self, cls, id):
+        """Find object by class name and id"""
+        key = "{}.{}".format(cls.__name__, id)
+        return self.__objects.get(key)
