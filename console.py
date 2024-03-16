@@ -7,6 +7,11 @@ import cmd
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 import shlex
 import json
 import sys
@@ -14,8 +19,9 @@ import sys
 
 class HBNBCommand(cmd.Cmd):
     """Command interpreter class."""
-    
     prompt = "(hbnb) "
+    class_name = ["BaseModel", "User", "State", "City", "Amenity",
+                  "Place", "Review"]
 
     def do_create(self, arg):
         """
@@ -26,12 +32,13 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
             return
-        try:
+        elif arg not in self.class_name:
+            print("** class doesn't exist **")
+            return
+        else:
             new_instance = eval(arg)()
             new_instance.save()
             print(new_instance.id)
-        except NameError:
-            print("** class doesn't exist **")
 
     def do_show(self, arg):
         """
@@ -39,21 +46,18 @@ class HBNBCommand(cmd.Cmd):
         on the class name and id.
         Usage: show <class name> <id>
         """
-        args = arg.split()
         if not arg:
             print("** class name missing **")
             return
-        try:
-            cls = eval(args[0])
-        except NameError:
-            print("** class doesn't exist **")
-            return
+        args = shlex.split(arg)
         if len(args) < 2:
             print("** instance id missing **")
             return
-        obj_id = args[1]
+        if args[0] not in self.class_name:
+            print("** class doesn't exist **")
+            return
         objs = storage.all()
-        obj_key = "{}.{}".format(args[0], obj_id)
+        obj_key = "{}.{}".format(args[0], args[1])
         if obj_key in objs:
             print(objs[obj_key])
         else:
@@ -65,21 +69,17 @@ class HBNBCommand(cmd.Cmd):
         (save the change into the JSON file).
         Usage: destroy <class name> <id>
         """
-        args = arg.split()
-        if not arg:
-            print("** class name missing **")
-            return
-        try:
-            cls = eval(args[0])
-        except NameError:
-            print("** class doesn't exist **")
-            return
+        args = shlex.split(arg)
         if len(args) < 2:
             print("** instance id missing **")
             return
+        class_name = args[0]
         obj_id = args[1]
+        if class_name not in self.class_name:
+            print("** class doesn't exist **")
+            return
+        obj_key = "{}.{}".format(class_name, obj_id)
         objs = storage.all()
-        obj_key = "{}.{}".format(args[0], obj_id)
         if obj_key in objs:
             del objs[obj_key]
             storage.save()
@@ -92,16 +92,20 @@ class HBNBCommand(cmd.Cmd):
         or not on the class name.
         Usage: all [<class name>]
         """
-        args = arg.split()
-        objs = storage.all()
         if not arg:
-            print([str(obj) for obj in objs.values()])
+            print("** class name missing **")
+            return
+        elif arg not in self.class_name:
+            print("** class doesn't exist **")
+            return
         else:
-            if args[0] not in ["BaseModel"]:
-                print("** class doesn't exist **")
-                return
-            print([str(obj) for key, obj in objs.items()
-                   if args[0] == key.split('.')[0]])
+            objs = storage.all()
+            result = []
+            for obj_key, obj in objs.items():
+                if arg == obj_key.split('.')[0] or\
+                        arg == obj.__class__.__name__:
+                            result.append(str(obj))
+                            print(result)
 
     def do_update(self, arg):
         """
@@ -110,58 +114,33 @@ class HBNBCommand(cmd.Cmd):
         Usage: update <class name> <id> <attribute name> "<attribute value>"
         """
         args = shlex.split(arg)
-        if not arg:
-            print("** class name missing **")
+        if len(args) < 4:
+            print("** attribute value missing **")
             return
-
-        class_name = args[0]
-        if class_name not in ["BaseModel"]:
-            print("** class doesn't exist **")
-            return
-
-        if len(args) < 2:
-            print("** instance id missing **")
-            return
-
-        obj_id = args[1]
-        objects = storage.all()
-        obj_key = "{}.{}".format(class_name, obj_id)
-        if obj_key not in objects:
-            print("** no instance found **")
-            return
-
-        obj = objects[obj_key]
-
         if len(args) < 3:
             print("** attribute name missing **")
             return
-
-        attr_name = args[2]
-        if len(args) < 4:
-            print("** value missing **")
+        if len(args) < 2:
+            print("** instance id missing **")
             return
-
-        attr_value_str = args[3]
-        attr_value = None
-        if isinstance(attr_value_str, str):
-            try:
-                attr_value = int(attr_value_str)
-            except ValueError:
-                try:
-                    attr_value = float(attr_value_str)
-                except ValueError:
-                    attr_value = attr_value_str
-
-        if attr_value is None:
-            print("** invalid value **")
+        if len(args) < 1:
+            print("** class name missing **")
             return
-
-        if attr_name in ["id", "created_at", "updated_at"]:
-            print("** cannot update id, created_at, or updated_at **")
+        if args[0] not in self.class_name:
+            print("** class doesn't exist **")
             return
-
-        setattr(obj, attr_name, attr_value)
-        obj.save()
+        objs = storage.all()
+        obj_key = "{}.{}".format(args[0], args[1])
+        if obj_key not in objs:
+            print("** no instance found **")
+            return
+        obj = objs[obj_key]
+        try:
+            setattr(obj, args[2], args[3])
+        except Exception as e:
+            print(e)
+            return
+        storage.save()
 
     def do_quit(self, arg):
         """

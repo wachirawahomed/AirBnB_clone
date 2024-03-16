@@ -30,6 +30,10 @@ class TestUser(unittest.TestCase):
         self.assertEqual(self.user.email, "test@example.com")
         self.assertEqual(self.user.password, "password")
 
+    def test_id_attribute(self):
+        """Test id attribute"""
+        self.assertTrue(hasattr(self.user, 'id'))
+
 
 if __name__ == '__main__':
     unittest.main()

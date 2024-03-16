@@ -3,8 +3,14 @@
 
 import json
 import uuid
+import os.path
 from models.base_model import BaseModel
 from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class FileStorage:
@@ -22,10 +28,12 @@ class FileStorage:
 
     def new(self, obj):
         """Sets in __objects the obj with key <obj class name>.id"""
+        # Check if the object has an 'id' attribute
         if hasattr(obj, 'id'):
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
             self.__objects[key] = obj
         else:
+            # Handle objects without an 'id' attribute here
             obj.id = str(uuid.uuid4())
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
             self.__objects[key] = obj
@@ -47,6 +55,16 @@ class FileStorage:
                     cls_name, obj_id = key.split('.')
                     if cls_name == "User":
                         cls = User
+                    elif cls_name == "State":
+                        cls = State
+                    elif cls_name == "City":
+                        cls = City
+                    elif cls_name == "Amenity":
+                        cls = Amenity
+                    elif cls_name == "Place":
+                        cls = Place
+                    elif cls_name == "Review":
+                        cls = Review
                     else:
                         cls = BaseModel
                     self.__objects[key] = cls(**value)
