@@ -52,3 +52,29 @@ section.places article h2 {
     margin-top: 20px;
     text-align: left;
 }
+
+.information {
+    height: 80px;
+    border-top: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+    display: flex;
+    align-items: center;
+}
+
+.information div .icon {
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+}
+
+.max_guest .icon {
+    background-image: url("../images/icon_group.png");
+}
+
+.number_rooms .icon {
+    background-image: url("../images/icon_bed.png");
+}
+
+.number_bathrooms .icon {
+    background-image: url("../images/icon_bath.png");
+}
