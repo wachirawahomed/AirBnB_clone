@@ -25,17 +25,17 @@ section.filters button:hover {
     opacity: .9;
 }
 /* location and amenities part of search bar */
-.locations,
-.amenities {
+section.filters .locations,
+section.filters .amenities {
     height: 100%;
     width: 25%;
     float: left;
 }
-.locations {
+section.filters .locations {
     border-right: 1px solid #DDDDDD;
 }
-.locations h3,
-.amenities h3 {
+section.filters .locations h3,
+section.filters .amenities h3 {
     font-weight: 600;
     font-size: 16px;
     margin-top: 20px;
@@ -43,8 +43,8 @@ section.filters button:hover {
     text-align: left;
     margin-left: 30px;
 }
-.locations h4,
-.amenities h4 {
+section.filters .locations h4,
+section.filters .amenities h4 {
     font-weight: 400;
     font-size: 14px;
     margin-top: 0px;
@@ -53,7 +53,7 @@ section.filters button:hover {
     margin-left: 30px;
 }
 /* display location and amenities options upon hover */
-.popover {
+section.filters .popover {
     display: none;
     background-color: #FAFAFA;
     border: 1px solid #DDDDDD;
@@ -61,16 +61,16 @@ section.filters button:hover {
     position: relative;
     z-index: 1;
 }
-.popover h2 {
+section.filters .popover h2 {
     font-size: 16px;
 }
-li {
+section.filters .popover li {
     list-style-type: none;
     margin-top:10px;
     margin-bottom: 10px;
 }
-.locations:hover .popover,
-.amenities:hover .popover {
+section.filters .locations:hover .popover,
+section.filters .amenities:hover .popover {
     display: block;
 }
 
