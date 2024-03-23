@@ -1,21 +1,33 @@
-section.places {
+.section.places {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: flex-start;
+    padding: 0 20px;
 }
 
-
-.places .flex-container {
+.section.places .flex-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    max-width: 1200px; /* Adjust max-width as needed */
+    max-width: 1200px; 
     margin: 0 auto;
 }
 
-section.places article {
-    /*flex: 1 1 calc(33.33% - 40px);*/
+/* Styles for smaller screens */
+@media (max-width: 768px) {
+    .section.places article {
+        width: calc(50% - 40px); /* Two articles per row */
+    }
+}
+
+@media (max-width: 480px) {
+    .section.places article {
+        width: calc(100% - 40px); /* One article per row */
+    }
+}
+
+.section.places article {
     width: 390px;
     margin: 20px;
     padding: 20px;
@@ -24,14 +36,14 @@ section.places article {
     position: relative;
 }
 
-section.places h1 {
+.section.places h1 {
     font-size: 30px;
     text-align: left;
     margin-bottom: 20px;
     width: 100%;
 }
 
-section.places article h2{
+.section.places article h2{
     font-size: 30px;
     text-align: center;
 }
@@ -89,63 +101,62 @@ section.places article h2{
     background-image: url("../images/icon_bath.png");
 }
 
-section.places .amenities {
+.section.places .amenities {
     margin-top: 20px;
     padding-top: 20px;
     border-top-style: none;
 }
 
-section.places .amenities h2 {
+.section.places .amenities h2 {
     text-align: left;
     font-size: 16px;
     border-bottom: 1px solid #DDDDDD;
 }
 
-section.places .amenities ul {
+.section.places .amenities ul {
     list-style-type: none;
     padding: 0;
 }
 
-section.places .amenities ul li {
+.section.places .amenities ul li {
     align-items: center;
     display: flex;
     margin-bottom: 10px;
 }
 
-section.places .amenities ul li .icon {
+.section.places .amenities ul li .icon {
     width: 24px;
     height: 24px;
     margin-right: 10px;
     background-size: contain;
 }
 
-section.places .reviews {
+.section.places .reviews {
     margin-top: 20px;
     padding-top: 20px;
     text-align: left;
     border-top-style: none;
 }
 
-section.places .reviews h2 {
+.section.places .reviews h2 {
     text-align: left;
     font-size: 16px;
     border-bottom: 1px solid #DDDDDD;
 }
 
-section.places .reviews ul {
+.section.places .reviews ul {
     list-style-type: none;
     padding: 0;
 }
 
-section.places .reviews ul li {
+.section.places .reviews ul li {
     margin-bottom: 20px;
 }
 
-section.places .reviews ul li h3 {
+.section.places .reviews ul li h3 {
     font-size: 14px;
 }
 
-section.places .reviews ul li p {
+.section.places .reviews ul li p {
     font-size: 12px;
 }
-
