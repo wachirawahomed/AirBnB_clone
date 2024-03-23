@@ -5,6 +5,8 @@ section.places {
 section.places h1 {
     font-size: 30px;
     text-align: left;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
 section.places article {
@@ -15,10 +17,14 @@ section.places article {
     border: 1px solid #FF5A5F;
     border-radius: 4px;
     display: inline-block;
+    position: relative;
+    vertical-align: top
 }
 
 section.places article h2 {
     font-size: 30px;
+    margin-top: 20px;
+    text-align: center;
 }
 
 .price_by_night {
@@ -29,9 +35,9 @@ section.places article h2 {
     height: 60px;
     font-size: 30px;
     line-height: 60px;
-    position: relative;
-    float: right;
-    top: -80px;
+    position: absolute;
+    top: 20px;
+    right: 20px
 }
 
 .information {
@@ -49,10 +55,7 @@ section.places article h2 {
     margin: 0 20px;
 }
 
-.user {
-    font-weight: bold;
-}
-
+.user,
 .description {
     margin-top: 20px;
     text-align: left;

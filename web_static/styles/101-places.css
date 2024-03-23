@@ -1,5 +1,27 @@
 section.places {
-    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+
+.places .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1200px; /* Adjust max-width as needed */
+    margin: 0 auto;
+}
+
+section.places article {
+    /*flex: 1 1 calc(33.33% - 40px);*/
+    width: 390px;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #FF5A5F;
+    border-radius: 4px;
+    position: relative;
 }
 
 section.places h1 {
@@ -9,20 +31,8 @@ section.places h1 {
     width: 100%;
 }
 
-section.places article {
-    width: 390px;
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #FF5A5F;
-    border-radius: 4px;
-    display: inline-block;
-    position: relative;
-    vertical-align: top;
-}
-
-section.places article h2 {
+section.places article h2{
     font-size: 30px;
-    margin-top: 20px;
     text-align: center;
 }
 
@@ -50,15 +60,15 @@ section.places article h2 {
 .max_guest,
 .number_rooms,
 .number_bathrooms {
-    width: 100px;
+    flex: 1;
     margin: 0 20px;
 }
 
 .user,
 .description {
+    text-align: left;
     margin-top: 20px;
     margin-bottom: 10px;
-    text-align: left;
 }
 
 .information div .icon {
@@ -138,3 +148,4 @@ section.places .reviews ul li h3 {
 section.places .reviews ul li p {
     font-size: 12px;
 }
+
