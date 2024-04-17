@@ -9,4 +9,3 @@ The command interpreter provides a shell-like interface where users can input co
 ### How to Start
 
 To start the command interpreter, follow these steps:
-
